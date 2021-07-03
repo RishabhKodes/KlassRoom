@@ -52,7 +52,7 @@ def textanalysis():
             emailform = request.form
             reciever = emailform['email']
             subject = emailform['subject']
-            send_email(f"{subject} - Your AudioLec Lecture", session['transcript'], reciever,
+            send_email(f"{subject} - Your KlassRoom Lecture", session['transcript'], reciever,
                        'KlassRoom', 'rishabhbhandari6@gmail.com', session['videos'], session['keywords'])
         keywords = api.sample_analyze_entities(session['transcript'])
         session['keywords'] = keywords
@@ -81,7 +81,7 @@ def testintelligence():
             emailform = request.form
             reciever = emailform['email']
             subject = emailform['subject']
-            send_email(f"{subject} - Your AudioLec Lecture", session['transcript'], reciever,
+            send_email(f"{subject} - Your KlassRoom Lecture", session['transcript'], reciever,
                        'KlassRoom', 'rishabhbhandari6@gmail.com')
         keywords = api.sample_analyze_entities(session['transcript'])
         session['keywords'] = keywords
