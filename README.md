@@ -1,12 +1,12 @@
-### KlassRoom — A companion for student life
+# KlassRoom — A companion for student life
 
-KlassRoom helps students turn lecture audio into actionable study aids:
-- Transcript generation from uploaded audio
-- Keyword/entity extraction using Google Cloud Natural Language
-- Curated YouTube video suggestions based on extracted topics
-- Optional email delivery of the transcript, topics, and links
+**KlassRoom** helps students turn lecture audio into actionable study aids:
+- **Transcript generation** from uploaded audio
+- **Keyword/entity extraction** using Google Cloud Natural Language
+- Curated **YouTube video suggestions** based on extracted topics
+- Optional **email delivery** of the transcript, topics, and links
 
-The app is a simple Flask web application with classic HTML/CSS/JS templates.
+The app is a simple **Flask** web application with classic HTML/CSS/JS templates.
 
 ### Features
 - Speech-to-text from WAV audio uploads using `SpeechRecognition`
