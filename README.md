@@ -1,56 +1,81 @@
-<h1><b><u>KlassRoom</b> :A companion for student life</h1></u>
+### KlassRoom — A companion for student life
 
-<h2><b>Problem Statement:</b></h2><p>
+KlassRoom helps students turn lecture audio into actionable study aids:
+- Transcript generation from uploaded audio
+- Keyword/entity extraction using Google Cloud Natural Language
+- Curated YouTube video suggestions based on extracted topics
+- Optional email delivery of the transcript, topics, and links
 
-It can be really hard to process class lectures and take notes effectively. Also, lectures listened to at home<BR>
-are very difficult to pay attention to and garner information from. Finally, lectures can be disinteresting<BR>
-and can often require supplemental resources.Therefore, we created KlassRoom is built to increase<BR>
-the efficiency of Study.
-</p>
+The app is a simple Flask web application with classic HTML/CSS/JS templates.
 
-<h2><b> Real World Problem Aimed to Solve:</h2>
-<p>It can be really hard to process class lectures and take notes effectively. Also, lectures listened to at home<br>
-are very difficult to pay attention to and garner information from. Finally, lectures can be disinteresting<br>
-and can often require supplemental resources. Under privileged students in their house are not getting<br>
-proper environment to study or focus on the lectures taught by the teachers and then high amount of data<br>
-is wasted in the surfing on the internet of the topic that was taught by the teacher in the recent class which<br>
-may effect the pocket oh their parents in this pandemic situation.</p>
+### Features
+- Speech-to-text from WAV audio uploads using `SpeechRecognition`
+- Entity extraction via `google-cloud-language`
+- YouTube suggestions scraped from search results
+- Email summaries via Gmail SMTP (optional)
 
-<h2><b> Solution</h2>
-<p> To make a project that transforms your online class to Google Search ,YouTube videos,<br>
-and Transcript of the whole class in form of google docs so that if you don’t able to listen
-to your teacher then due to voice lagging or low internet connnectivities , you can check
-the transcript afterwards.
-Google Search means that it’ll find some topics that may<br> be explained by the teacher and
-searches on the google to save time and find relevant material.<br>
-YouTube Search means that it’ll search on the youtube to find the relevant and specific
-videos on the topics taught by the teacher in most recent class.</p>
+### Project structure
+- `app.py`: Flask app, routes, and server bootstrap
+- `GoogleNLPAPI.py`: Google Cloud Language client and entity extraction
+- `emailAnalysis.py`: Email composer/sender (SMTP)
+- `emailer.py`: Minimal email sender (not used by default routes)
+- `getYoutubeVideoLinks.py`: YouTube search scraping to build embed links
+- `templates/`: HTML templates
+- `static/`: CSS, JS, and assets
 
-## File Structure:
->  * GoogleNLPAPI.py is used to generate the keywords from the script and process <br>the speech-to-text using the audio file. <br>
+### Prerequisites
+- Python 3.10+ (macOS recommended; tested locally)
+- A Google Cloud project with the Natural Language API enabled
+- A service account key JSON file downloaded from Google Cloud Console
+  - Save the key file as `googleNLPAPIcodes.json` in the project root
+  - The app sets `GOOGLE_APPLICATION_CREDENTIALS` to this filename at runtime
+- Optional: Gmail account with an App Password (for email sending)
+  - If you plan to use email, configure the sender and password before sending
 
-> * emailAnalysis.py is used to mail the report to you email id.
-<br>
+### Quickstart
+1) Create and activate a virtual environment
+```bash
+python3 -m venv .venv
+source .venv/bin/activate
+python -m pip install --upgrade pip
+```
 
-> * getYoutubeVideoLinks.py generates all the YouTube video suggestions according to keywords.
-<br>
+2) Install dependencies
+```bash
+pip install Flask google-cloud-language SpeechRecognition
+```
 
-> * googleDocs.py creates a Google Doc of the transcript.
-<br>
+3) Put your Google Cloud key in place
+- Copy your service account JSON into the project root as:
+  - `googleNLPAPIcodes.json`
 
-> * templates/ has all the frontend code, and static/ has some frontend resources.
+4) Run the app
+```bash
+python app.py
+```
+Then open `http://127.0.0.1:5000/`
 
+### Email sending (optional)
+The route that emails summaries uses Gmail SMTP. Before using it in production:
+- In `emailAnalysis.py`, the SMTP sender email must be a valid Gmail address
+- Use a Gmail App Password for the SMTP login
+- Some routes in `app.py` currently pass placeholder credentials for demo purposes; you should wire your own secure values before using email in a real environment
 
-## <b>Steps to run and Install:
-## Installation
+### Notes and tips
+- Audio uploads should be WAV/PCM for best results with `SpeechRecognition`
+- If you see certificate/SSL issues on macOS when scraping YouTube, run Apple’s “Install Certificates.command” bundled with your Python or install certificates via Homebrew
+- If you get Google credentials errors at runtime, ensure `googleNLPAPIcodes.json` exists in the project root and is a valid service account key with access to the Natural Language API
+- YouTube search scraping is best-effort and may change if YouTube alters its markup
 
-`pip3 install pipenv`
+### Troubleshooting
+- Google Cloud auth error:
+  - Ensure `googleNLPAPIcodes.json` exists at the project root and is a valid key
+- Flask server starts but analysis fails:
+  - Confirm you installed: `Flask google-cloud-language SpeechRecognition`
+- SSL / certificate errors on macOS:
+  - Install/update system certificates or run the Python “Install Certificates.command”
+- Email fails to send:
+  - Use a Gmail App Password and correct sender/recipient addresses
 
-`pip3 install google-cloud-language`
-
-`pip3 install SpeechRecognition`
-
-## Run Application
-$ python "KlassRoom/app.py"
-
-### Open localhost and try the app out http://127.0.0.1:5000/
+### License
+This project is provided as-is for educational purposes.
